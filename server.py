@@ -11,17 +11,18 @@ def render_index():
 def sent_analyzer():
     text_to_analyze = request.args.get('textToAnalyze')
     result = emotion_detector(text_to_analyze)
-
-    response = (f"For the given statement '{text_to_analyze}' the system response is:"
-                    f"Anger: {result['anger']}"
-                    f"Disgust: {result['disgust']}"
-                    f"Fear: {result['fear']}"
-                    f"Joy: {result['joy']}"
-                    f"Sadness: {result['sadness']}"
-                    "----------------------------"
-                    f"The Dominant Emotion is {result['dominant_emotion']}")
     
-    return response
-
+    if result['dominant_emotion'] is None:
+        return "Invalid text! Please Try Again!"
+    else: 
+        response = (f"For the given statement '{text_to_analyze}' the system response is: "
+                    f"'Anger': {result['anger']}, "
+                    f"'Disgust': {result['disgust']}, "
+                    f"'Fear': {result['fear']}, "
+                    f"'Joy': {result['joy']}, "
+                    f"'Sadness': {result['sadness']}. "
+                    f"The Dominant Emotion is {result['dominant_emotion']}")
+        return response
+    
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port = 5000)
+    app.run(host = '0.0.0.0', port = 5001)
